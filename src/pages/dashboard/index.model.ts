@@ -1,3 +1,4 @@
+
 import { chart, watchSymbol } from '@/api';
 import { getInterval } from '@/utils/date';
 import dayjs from 'dayjs';
@@ -57,9 +58,11 @@ const effects = ({
     });
 
     actions.setState({
-      [symbol]: {
-        ...state.symbolInfo[symbol],
-        depthChartData,
+      symbolInfo: {
+        [symbol]: {
+          ...state.symbolInfo[symbol],
+          depthChartData,
+        }
       },
     });
     return null;
@@ -75,10 +78,13 @@ const effects = ({
     data.forEach((item: Record<string, any>) => {
       transTradeData(tradeChartData, item);
     });
+
     actions.setState({
-      [symbol]: {
-        ...state.symbolInfo[symbol],
-        tradeChartData,
+      symbolInfo: {
+        [symbol]: {
+          ...state.symbolInfo[symbol],
+          tradeChartData,
+        },
       },
     });
   },

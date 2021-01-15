@@ -43,21 +43,27 @@ const index: React.FC<Props> = props => {
 
   useEffect(() => {
     watchSymbol.query().then(data => {
-      data.forEach((item: any) => {
-        if (state.symbolInfo[item.symbol] === undefined) {
+      data.forEach((item: {symbol: string}) => {
+        const symbol = item.symbol.toLowerCase();
+        if (state.symbolInfo[symbol] === undefined) {
           actions.setState({
-            [item.symbol]: {
-              depthAsksList: [],
-              depthBidsList: [],
-              depthChartData: [],
-              tradeChartData: [],
+            symbolInfo: {
+              [symbol]: {
+                depthAsksList: [],
+                depthBidsList: [],
+                depthChartData: [],
+                tradeChartData: [],
+              },
             },
           });
         }
-        effects.getDepthData(item.symbol);
-        effects.getTradeData(item.symbol);
+        effects.getDepthData(symbol).then(() => {
+          setTimeout(() => {
+            effects.getTradeData(symbol);
+          }, 2000);
+        });
 
-        socket.emit('sub', { symbol: item.symbol });
+        socket.emit('sub', { symbol: symbol });
       });
     });
   }, []);
@@ -82,11 +88,13 @@ const index: React.FC<Props> = props => {
     const symbol = data.data.symbol;
     if (state.symbolInfo[symbol] === undefined) {
       actions.setState({
-        [symbol]: {
-          depthAsksList: [],
-          depthBidsList: [],
-          depthChartData: [],
-          tradeChartData: [],
+        symbolInfo: {
+          [symbol]: {
+            depthAsksList: [],
+            depthBidsList: [],
+            depthChartData: [],
+            tradeChartData: [],
+          },
         },
       });
     }
@@ -97,18 +105,22 @@ const index: React.FC<Props> = props => {
         transDepthData(depthChartData, data);
 
         actions.setState({
-          [symbol]: {
-            ...state.symbolInfo[symbol],
-            depthChartData,
+          symbolInfo: {
+            [symbol]: {
+              ...state.symbolInfo[symbol],
+              depthChartData,
+            },
           },
         });
         break;
       case EventTypes.huobi_depth:
         actions.setState({
-          [symbol]: {
-            ...state.symbolInfo[symbol],
-            depthAsksList: data.asksList,
-            depthBidsList: data.bidsList,
+          symbolInfo: {
+            [symbol]: {
+              ...state.symbolInfo[symbol],
+              depthAsksList: data.asksList,
+              depthBidsList: data.bidsList,
+            },
           },
         });
         break;
