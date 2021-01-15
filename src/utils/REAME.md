@@ -1,0 +1,1 @@
+工具函数(参考lodash，复杂的放libs，带业务的放common)

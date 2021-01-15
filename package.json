@@ -1,0 +1,61 @@
+{
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/H-jx/huobi-web.git"
+  },
+  "scripts": {
+    "start": "umi dev",
+    "build": "umi build",
+    "postinstall": "umi generate tmp",
+    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
+    "deploy:beta": "npm run build && node scripts/deploy.js deploy-beta",
+    "deploy:prod": "npm run build && node scripts/deploy.js deploy-master",
+    "test": "umi-test",
+    "test:coverage": "umi-test --coverage"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,less,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
+  },
+  "dependencies": {
+    "@ant-design/charts": "^1.0.12",
+    "@ant-design/pro-form": "^1.10.2",
+    "@ant-design/pro-layout": "^6.7.0",
+    "@antv/g2plot": "^2.3.2",
+    "@handsontable/react": "^4.0.0",
+    "@umijs/preset-react": "1.x",
+    "@umijs/test": "^3.2.16",
+    "antd": "^4.9.4",
+    "axios": "^0.20.0",
+    "classnames": "^2.2.6",
+    "dayjs": "^1.9.7",
+    "enquire-js": "^0.2.1",
+    "handsontable": "^8.0.0",
+    "lint-staged": "^10.0.7",
+    "prettier": "^1.19.1",
+    "rc-banner-anim": "^2.4.4",
+    "rc-queue-anim": "^1.8.5",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-grid-layout": "^1.0.0",
+    "socket.io": "^2.3.0",
+    "umi": "^3.2.16",
+    "use-easy-model": "^1.0.5",
+    "yorkie": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/classnames": "^2.2.10",
+    "@types/react-grid-layout": "^0.17.2",
+    "@types/socket.io-client": "^1.4.33",
+    "gh-pages": "^3.1.0",
+    "socket.io-client": "^2.3.0"
+  }
+}

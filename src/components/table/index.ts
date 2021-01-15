@@ -1,0 +1,1 @@
+export {default as Handsontable} from "./Handsontable";
