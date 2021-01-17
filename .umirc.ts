@@ -49,6 +49,11 @@ export default defineConfig({
               name: '自动交易',
               component: '@/pages/admin/auto-order/index',
             },
+            {
+              path: '/admin/auto-order-history',
+              name: '自动交易记录',
+              component: '@/pages/admin/auto-order-history/index',
+            },
           ],
         },
       ],

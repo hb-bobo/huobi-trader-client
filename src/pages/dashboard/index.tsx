@@ -65,8 +65,8 @@ const index: React.FC<Props> = props => {
     // effects.getTradeData(symbol);
     effects.getDepthData(symbol).then(() => {
       setTimeout(() => {
-        effects.getTradeData(symbol);
-      }, 2000);
+        // effects.getTradeData(symbol);
+      }, 3000);
     });
   }
   function handleMessage(event: EventData<any>) {
@@ -129,7 +129,7 @@ const index: React.FC<Props> = props => {
     { i: 'c', x: 4, y: 0, w: 1, h: 2 },
   ];
   const symbols = Object.keys(state.symbolInfo);
-  console.log(state.symbolInfo);
+
   return (
     <div className={classnames(prefixCls)}>
       <Form

@@ -54,3 +54,11 @@ export function removeAutoOrder(id: string) {
     }),
   );
 }
+
+export function queryAutoOrderHistory() {
+  return checkResult(
+    request({
+      url: '/auto-order-history',
+    }),
+  );
+}

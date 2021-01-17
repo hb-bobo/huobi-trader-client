@@ -83,6 +83,7 @@ const effects = ({
       start,
       end,
     });
+    console.log(state.symbolInfo);
     const tradeChartData: Record<string, any>[] = [];
     data.forEach((item: Record<string, any>) => {
       transTradeData(tradeChartData, item);
