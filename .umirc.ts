@@ -36,8 +36,18 @@ export default defineConfig({
           routes: [
             {
               path: '/admin/watch-symbol',
-              name: 'watch-symbol',
+              name: '监听的币种',
               component: '@/pages/admin/watch-symbol/index',
+            },
+            {
+              path: '/admin/trade-account',
+              name: '交易账户',
+              component: '@/pages/admin/trade-account/index',
+            },
+            {
+              path: '/admin/auto-order',
+              name: '自动交易',
+              component: '@/pages/admin/auto-order/index',
             },
           ],
         },

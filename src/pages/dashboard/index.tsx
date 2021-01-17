@@ -43,26 +43,14 @@ const index: React.FC<Props> = props => {
 
   useEffect(() => {
     watchSymbol.query().then(data => {
-      data.forEach((item: {symbol: string}) => {
+      if (!Array.isArray(data)) {
+        console.error(data);
+        return;
+      }
+      data.forEach((item: { symbol: string }) => {
         const symbol = item.symbol.toLowerCase();
-        if (state.symbolInfo[symbol] === undefined) {
-          actions.setState({
-            symbolInfo: {
-              [symbol]: {
-                depthAsksList: [],
-                depthBidsList: [],
-                depthChartData: [],
-                tradeChartData: [],
-              },
-            },
-          });
-        }
-        effects.getDepthData(symbol).then(() => {
-          setTimeout(() => {
-            effects.getTradeData(symbol);
-          }, 2000);
-        });
 
+        getData(symbol);
         socket.emit('sub', { symbol: symbol });
       });
     });
@@ -73,67 +61,47 @@ const index: React.FC<Props> = props => {
       socket.off('message', handleMessage);
     };
   }, [actions]);
-
+  function getData(symbol: string) {
+    // effects.getTradeData(symbol);
+    effects.getDepthData(symbol).then(() => {
+      setTimeout(() => {
+        effects.getTradeData(symbol);
+      }, 2000);
+    });
+  }
   function handleMessage(event: EventData<any>) {
     const data = event.data;
-    if (event.type && data.data) {
-      if (form.getFieldValue('symbol')) {
-        if (data.data.symbol !== form.getFieldValue('symbol')) {
-          return;
-        }
-      } else if (data.data.symbol !== 'btcusdt') {
-        return;
-      }
-    }
-    const symbol = data.data.symbol;
-    if (state.symbolInfo[symbol] === undefined) {
-      actions.setState({
-        symbolInfo: {
-          [symbol]: {
-            depthAsksList: [],
-            depthBidsList: [],
-            depthChartData: [],
-            tradeChartData: [],
-          },
-        },
-      });
-    }
-    switch (event.type && symbol) {
+
+    const symbol = data.symbol;
+
+    switch (event.type) {
       case EventTypes.huobi_depth_chart:
         const depthChartData = [...state.symbolInfo[symbol].depthChartData];
 
         transDepthData(depthChartData, data);
-
-        actions.setState({
-          symbolInfo: {
-            [symbol]: {
-              ...state.symbolInfo[symbol],
-              depthChartData,
-            },
-          },
+        actions.setSymbolInfo({
+          symbol: symbol,
+          depthChartData,
         });
+
         break;
       case EventTypes.huobi_depth:
-        actions.setState({
-          symbolInfo: {
-            [symbol]: {
-              ...state.symbolInfo[symbol],
-              depthAsksList: data.asksList,
-              depthBidsList: data.bidsList,
-            },
-          },
+        actions.setSymbolInfo({
+          symbol: symbol,
+          depthAsksList: data.asksList,
+          depthBidsList: data.bidsList,
         });
         break;
       case EventTypes.huobi_trade:
-        const tradeChartData = [...state.symbolInfo[symbol].tradeChartData];
+        const tradeChartData = state.symbolInfo[symbol]
+          ? [...state.symbolInfo[symbol].tradeChartData]
+          : [];
 
         transTradeData(tradeChartData, data);
 
-        actions.setState({
-          [symbol]: {
-            ...state.symbolInfo[symbol],
-            tradeChartData,
-          },
+        actions.setSymbolInfo({
+          symbol: symbol,
+          tradeChartData,
         });
         break;
     }
@@ -152,7 +120,6 @@ const index: React.FC<Props> = props => {
     e: MouseEvent,
     element: HTMLElement,
   ) {
-    console.log(layout);
     // y 不是坐标y，在这相当于index
     // const newPages = reorder(pages, oldItem.y, newItem.y);
   }
@@ -162,6 +129,7 @@ const index: React.FC<Props> = props => {
     { i: 'c', x: 4, y: 0, w: 1, h: 2 },
   ];
   const symbols = Object.keys(state.symbolInfo);
+  console.log(state.symbolInfo);
   return (
     <div className={classnames(prefixCls)}>
       <Form
@@ -211,8 +179,8 @@ const index: React.FC<Props> = props => {
                 xField={'time'}
                 yField={['value', 'price']}
                 data={[
-                  state.symbolInfo[symbol].depthChartData,
-                  state.symbolInfo[symbol].depthChartData,
+                  state.symbolInfo[symbol].depthChartData || [],
+                  state.symbolInfo[symbol].depthChartData || [],
                 ]}
               />
             </div>,

@@ -42,7 +42,7 @@ const WatchSymbol: React.FC<Props> = props => {
   const columns = [
     {
       title: 'SYMBOL',
-      kye: 'symbol',
+      key: 'symbol',
       dataIndex: 'symbol',
     },
     {

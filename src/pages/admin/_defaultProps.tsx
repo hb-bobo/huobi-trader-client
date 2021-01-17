@@ -21,6 +21,13 @@ export default {
         access: 'canAdmin',
         component: './watch-symbol/index',
       },
+      {
+        path: '/admin/trade-account',
+        name: '交易账户',
+        icon: <CrownOutlined />,
+        access: 'canAdmin',
+        component: './trade-account/index',
+      },
     ],
   },
   location: {

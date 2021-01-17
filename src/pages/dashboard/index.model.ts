@@ -1,4 +1,3 @@
-
 import { chart, watchSymbol } from '@/api';
 import { getInterval } from '@/utils/date';
 import dayjs from 'dayjs';
@@ -37,6 +36,20 @@ const reducers = {
   setState(state: State, payload: Partial<State>) {
     return Object.assign({}, state, payload);
   },
+  setSymbolInfo(state: State, payload: Record<string, any>) {
+    const { symbol, ...infoObject } = payload;
+    const newSymbolInfo = {
+      ...state.symbolInfo,
+      [symbol]: {
+        ...state.symbolInfo[symbol],
+        ...infoObject,
+      },
+    };
+    return {
+      ...state,
+      symbolInfo: newSymbolInfo,
+    };
+  },
 };
 const effects = ({
   state,
@@ -57,13 +70,9 @@ const effects = ({
       transDepthData(depthChartData, item);
     });
 
-    actions.setState({
-      symbolInfo: {
-        [symbol]: {
-          ...state.symbolInfo[symbol],
-          depthChartData,
-        }
-      },
+    actions.setSymbolInfo({
+      symbol,
+      depthChartData,
     });
     return null;
   },
@@ -79,13 +88,9 @@ const effects = ({
       transTradeData(tradeChartData, item);
     });
 
-    actions.setState({
-      symbolInfo: {
-        [symbol]: {
-          ...state.symbolInfo[symbol],
-          tradeChartData,
-        },
-      },
+    actions.setSymbolInfo({
+      symbol,
+      tradeChartData,
     });
   },
 });

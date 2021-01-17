@@ -15,7 +15,7 @@ export default withRouter(({ history, location, ...props }) => {
         pathname: location.pathname,
       }}
       route={{
-        routes: props.route.routes,
+        routes: (props as any).route.routes,
       }}
       title={''}
       logo={null}
