@@ -2,7 +2,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/H-jx/huobi-web.git"
+    "url": "https://github.com/hb-bobo/huobi-trader-client.git"
   },
   "scripts": {
     "start": "umi dev",
