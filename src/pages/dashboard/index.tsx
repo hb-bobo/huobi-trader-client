@@ -49,26 +49,20 @@ const index: React.FC<Props> = props => {
       }
       data.forEach((item: { symbol: string }) => {
         const symbol = item.symbol.toLowerCase();
-
-        getData(symbol);
+        effects.getDepthData(symbol);
+        effects.getTradeData(symbol);
         socket.emit('sub', { symbol: symbol });
       });
     });
   }, []);
+
   useEffect(() => {
     socket.on('message', handleMessage);
     return () => {
       socket.off('message', handleMessage);
     };
   }, [actions]);
-  function getData(symbol: string) {
-    // effects.getTradeData(symbol);
-    effects.getDepthData(symbol).then(() => {
-      setTimeout(() => {
-        // effects.getTradeData(symbol);
-      }, 3000);
-    });
-  }
+
   function handleMessage(event: EventData<any>) {
     const data = event.data;
 
