@@ -27,7 +27,7 @@ const AutoOrder: React.FC<Props> = props => {
 
   function queryAutoOrderHistory() {
     trade.queryAutoOrderHistory().then(data => {
-      setAutoOrderHistoryList(data);
+      setAutoOrderHistoryList(data.list);
     });
   }
 

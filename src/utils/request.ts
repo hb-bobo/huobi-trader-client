@@ -78,8 +78,7 @@ export function checkResult<T>(res: Promise<ResponseData<T>>) {
         message: `请求错误 ${data.code}`,
         description: data.message,
       });
-
-      return data.message;
+      return data.data;
     } else {
       return data.data;
     }
