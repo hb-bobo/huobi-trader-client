@@ -20,6 +20,12 @@ const AutoOrder: React.FC<Props> = props => {
   const [autoOrderHistoryList, setAutoOrderHistoryList] = React.useState<any[]>(
     [],
   );
+  const [pagination, setPagination] = React.useState({
+    current: 1,
+    defaultPageSize: 10,
+    pageSize: 10,
+    total: 0,
+  });
 
   useEffect(() => {
     queryAutoOrderHistory();
@@ -28,6 +34,9 @@ const AutoOrder: React.FC<Props> = props => {
   function queryAutoOrderHistory() {
     trade.queryAutoOrderHistory().then(data => {
       setAutoOrderHistoryList(data.list);
+      if (data.pagination) {
+        setPagination(data.pagination as any);
+      }
     });
   }
 
@@ -53,14 +62,18 @@ const AutoOrder: React.FC<Props> = props => {
       dataIndex: 'type',
     },
     {
-      title: 'time',
-      key: 'time',
-      dataIndex: 'time',
+      title: 'datetime',
+      key: 'datetime',
+      dataIndex: 'datetime',
     },
   ];
   return (
     <div className={classnames(prefixCls)}>
-      <Table columns={columns} dataSource={autoOrderHistoryList} />
+      <Table
+        columns={columns}
+        dataSource={autoOrderHistoryList}
+        pagination={pagination}
+      />
     </div>
   );
 };

@@ -65,10 +65,10 @@ export function queryAutoOrderHistory() {
   ).then(data => {
     if (Array.isArray(data.list)) {
       data.list.forEach((item: any) => {
-        item.datetime = dayjs(item.datetime).format();
+        item.datetime = dayjs(item.datetime).format('YYYY-MM-DD HH:mm:ss');
       });
       return data;
     }
-    return { list: [] };
+    return { list: [], pagination: undefined };
   });
 }
