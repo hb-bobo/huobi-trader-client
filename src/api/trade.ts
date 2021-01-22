@@ -1,5 +1,6 @@
 import { TradeAccountDto } from '@/interface/trade';
 import request, { checkResult } from '@/utils/request';
+import dayjs from 'dayjs';
 
 export function queryTradeAccount() {
   return checkResult(
@@ -60,5 +61,12 @@ export function queryAutoOrderHistory() {
     request({
       url: '/auto-order-history',
     }),
-  );
+  ).then((data) => {
+    return data.map(() => {
+      return {
+        ...data,
+        time: dayjs(data).format()
+      }
+    })
+  });
 }
