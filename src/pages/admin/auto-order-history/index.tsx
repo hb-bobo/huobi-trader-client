@@ -28,11 +28,11 @@ const AutoOrder: React.FC<Props> = props => {
   });
 
   useEffect(() => {
-    queryAutoOrderHistory();
+    queryAutoOrderHistory(pagination);
   }, []);
 
-  function queryAutoOrderHistory() {
-    trade.queryAutoOrderHistory().then(data => {
+  function queryAutoOrderHistory(pagination: any) {
+    trade.queryAutoOrderHistory(pagination).then(data => {
       setAutoOrderHistoryList(data.list);
       if (data.pagination) {
         setPagination(data.pagination as any);
@@ -67,12 +67,26 @@ const AutoOrder: React.FC<Props> = props => {
       dataIndex: 'datetime',
     },
   ];
+  function handlePageChange(page: number, pageSize?: number) {
+    const newPagination = {
+      ...pagination,
+      current: page,
+    };
+    if (pageSize) {
+      newPagination.pageSize = pageSize;
+    }
+    queryAutoOrderHistory(newPagination);
+    setPagination(newPagination);
+  }
   return (
     <div className={classnames(prefixCls)}>
       <Table
         columns={columns}
         dataSource={autoOrderHistoryList}
-        pagination={pagination}
+        pagination={{
+          onChange: handlePageChange,
+          ...pagination,
+        }}
       />
     </div>
   );

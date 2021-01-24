@@ -1,4 +1,4 @@
-import { ListResult } from '@/interface/common';
+import { ListResult, Pagination } from '@/interface/common';
 import { TradeAccountDto } from '@/interface/trade';
 import request, { checkResult } from '@/utils/request';
 import dayjs from 'dayjs';
@@ -57,10 +57,11 @@ export function removeAutoOrder(id: string) {
   );
 }
 
-export function queryAutoOrderHistory() {
+export function queryAutoOrderHistory({ current, pageSize }: Pagination) {
   return checkResult<ListResult<any[]>>(
     request({
       url: '/auto-order-history',
+      params: { current, pageSize },
     }),
   ).then(data => {
     if (Array.isArray(data.list)) {
