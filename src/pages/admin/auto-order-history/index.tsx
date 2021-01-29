@@ -20,14 +20,23 @@ const AutoOrder: React.FC<Props> = props => {
   const [autoOrderHistoryList, setAutoOrderHistoryList] = React.useState<any[]>(
     [],
   );
+  const [pagination, setPagination] = React.useState({
+    current: 1,
+    defaultPageSize: 10,
+    pageSize: 10,
+    total: 0,
+  });
 
   useEffect(() => {
-    queryAutoOrderHistory();
+    queryAutoOrderHistory(pagination);
   }, []);
 
-  function queryAutoOrderHistory() {
-    trade.queryAutoOrderHistory().then(data => {
-      setAutoOrderHistoryList(data);
+  function queryAutoOrderHistory(pagination: any) {
+    trade.queryAutoOrderHistory(pagination).then(data => {
+      setAutoOrderHistoryList(data.list);
+      if (data.pagination) {
+        setPagination(data.pagination as any);
+      }
     });
   }
 
@@ -53,14 +62,32 @@ const AutoOrder: React.FC<Props> = props => {
       dataIndex: 'type',
     },
     {
-      title: 'time',
-      key: 'time',
-      dataIndex: 'time',
+      title: 'datetime',
+      key: 'datetime',
+      dataIndex: 'datetime',
     },
   ];
+  function handlePageChange(page: number, pageSize?: number) {
+    const newPagination = {
+      ...pagination,
+      current: page,
+    };
+    if (pageSize) {
+      newPagination.pageSize = pageSize;
+    }
+    queryAutoOrderHistory(newPagination);
+    setPagination(newPagination);
+  }
   return (
     <div className={classnames(prefixCls)}>
-      <Table columns={columns} dataSource={autoOrderHistoryList} />
+      <Table
+        columns={columns}
+        dataSource={autoOrderHistoryList}
+        pagination={{
+          onChange: handlePageChange,
+          ...pagination,
+        }}
+      />
     </div>
   );
 };

@@ -18,11 +18,11 @@ export default defineConfig({
           name: 'dashboard',
           component: '@/pages/dashboard/index',
         },
-        {
-          path: '/dashboard-test',
-          name: 'dashboard-test',
-          component: '@/pages/dashboard-test/index',
-        },
+        // {
+        //   path: '/dashboard-test',
+        //   name: 'dashboard-test',
+        //   component: '@/pages/dashboard-test/index',
+        // },
         {
           path: '/login',
           component: '@/pages/login/index',
@@ -91,26 +91,27 @@ export default defineConfig({
       // 'pathRewrite': { '^/api' : '' },
     },
   },
-  // chunks: ['vendors', 'umi'],
-  // chainWebpack: function(config, { webpack }) {
-  //   config.merge({
-  //     optimization: {
-  //       splitChunks: {
-  //         chunks: 'all',
-  //         minSize: 30000,
-  //         minChunks: 1,
-  //         automaticNameDelimiter: '.',
-  //         cacheGroups: {
-  //           vendor: {
-  //             name: 'vendors',
-  //             test({ resource }) {
-  //               return /[\\/]node_modules[\\/]/.test(resource);
-  //             },
-  //             priority: 10,
-  //           },
-  //         },
-  //       },
-  //     },
-  //   });
-  // },
+  dynamicImport: {},
+  chunks: ['vendors', 'umi'],
+  chainWebpack: function(config, { webpack }) {
+    config.merge({
+      optimization: {
+        splitChunks: {
+          chunks: 'all',
+          minSize: 30000,
+          minChunks: 2,
+          automaticNameDelimiter: '.',
+          cacheGroups: {
+            vendor: {
+              name: 'vendors',
+              test({ resource }) {
+                return /[\\/]node_modules[\\/]/.test(resource);
+              },
+              priority: 10,
+            },
+          },
+        },
+      },
+    });
+  },
 });

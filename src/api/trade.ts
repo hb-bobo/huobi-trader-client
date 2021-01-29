@@ -1,3 +1,4 @@
+import { ListResult, Pagination } from '@/interface/common';
 import { TradeAccountDto } from '@/interface/trade';
 import request, { checkResult } from '@/utils/request';
 import dayjs from 'dayjs';
@@ -56,17 +57,19 @@ export function removeAutoOrder(id: string) {
   );
 }
 
-export function queryAutoOrderHistory() {
-  return checkResult(
+export function queryAutoOrderHistory({ current, pageSize }: Pagination) {
+  return checkResult<ListResult<any[]>>(
     request({
       url: '/auto-order-history',
+      params: { current, pageSize },
     }),
-  ).then((data) => {
-    return data.map(() => {
-      return {
-        ...data,
-        time: dayjs(data).format()
-      }
-    })
+  ).then(data => {
+    if (Array.isArray(data.list)) {
+      data.list.forEach((item: any) => {
+        item.datetime = dayjs(item.datetime).format('YYYY-MM-DD HH:mm:ss');
+      });
+      return data;
+    }
+    return { list: [], pagination: undefined };
   });
 }
