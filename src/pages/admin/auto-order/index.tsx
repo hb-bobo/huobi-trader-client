@@ -15,6 +15,36 @@ interface Props {}
 
 const prefixCls = `auto-order`;
 
+const periodOptions = [
+  // {
+  //   value: '1min',
+  //   label: '1min',
+  // },
+  {
+    value: '5min',
+    label: '5min'
+  },
+  {
+    value: '15min',
+    label: '15min'
+  },
+  {
+    value: '30min',
+    label: '30min'
+  },
+  {
+    value: '60min',
+    label: '60min'
+  },
+  {
+    value: '4hour',
+    label: '4hour'
+  },
+  {
+    value: '1day',
+    label: '1day'
+  },
+]
 const AutoOrder: React.FC<Props> = props => {
   const {} = props;
   const [autoOrderConfigList, setAutoOrderConfigList] = React.useState<any[]>(
@@ -68,6 +98,11 @@ const AutoOrder: React.FC<Props> = props => {
       dataIndex: 'sell_usdt',
     },
     {
+      title: 'period',
+      key: 'period',
+      dataIndex: 'period',
+    },
+    {
       title: '操作',
       key: 'action',
       render: (text: string, record: any, index: number) => (
@@ -92,6 +127,12 @@ const AutoOrder: React.FC<Props> = props => {
             <ProFormText width="s" name="symbol" label="symbol" />
             <ProFormDigit width="s" name="buy_usdt" label="buy_usdt" />
             <ProFormDigit width="s" name="sell_usdt" label="sell_usdt" />
+            <ProFormSelect
+              options={periodOptions}
+              width="s"
+              name="period"
+              label="period"
+            />
           </ModalForm>
           |
           <Button
@@ -135,6 +176,13 @@ const AutoOrder: React.FC<Props> = props => {
         <ProFormText width="s" name="symbol" label="symbol" />
         <ProFormDigit width="s" name="buy_usdt" label="buy_usdt" />
         <ProFormDigit width="s" name="sell_usdt" label="sell_usdt" />
+        <ProFormText width="s" name="period" label="period" />
+        <ProFormSelect
+          options={periodOptions}
+          width="s"
+          name="period"
+          label="period"
+        />
       </ModalForm>
       <Table columns={columns} dataSource={autoOrderConfigList} />
     </div>
