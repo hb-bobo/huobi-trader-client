@@ -6,7 +6,7 @@ import defaultProps from './_defaultProps';
 import './index.less';
 
 export default withRouter(({ history, location, ...props }) => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   return (
     <ProLayout
@@ -20,7 +20,6 @@ export default withRouter(({ history, location, ...props }) => {
       title={''}
       logo={null}
       collapsed={collapsed}
-      collapsedButtonRender={false}
       fixSiderbar
       menuItemRender={(item, dom) => (
         <a

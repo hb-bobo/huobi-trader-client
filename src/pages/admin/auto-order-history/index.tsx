@@ -62,6 +62,11 @@ const AutoOrder: React.FC<Props> = props => {
       dataIndex: 'type',
     },
     {
+      title: 'status',
+      key: 'status',
+      dataIndex: 'status',
+    },
+    {
       title: 'datetime',
       key: 'datetime',
       dataIndex: 'datetime',
