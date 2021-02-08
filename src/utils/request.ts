@@ -24,7 +24,7 @@ http.interceptors.response.use(
     if (isObjectLike(response.data)) {
       // 未登录
       if (response.data.code === 401) {
-        history.push('/login');
+        history.push(`/login?return=${window.location.href}`);
       }
     }
     return response;
@@ -78,7 +78,7 @@ export function checkResult<T>(res: Promise<ResponseData<T>>) {
         message: `请求错误 ${data.code}`,
         description: data.message,
       });
-      return data.data;
+      throw data.message;
     } else {
       return data.data;
     }

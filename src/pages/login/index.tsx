@@ -20,6 +20,7 @@ const tailLayout = {
 };
 const index: React.FC<Props> = props => {
   const {} = props;
+
   const onFinish = (values: Partial<FormData>) => {
     if (values.username && values.password) {
       login
@@ -27,7 +28,11 @@ const index: React.FC<Props> = props => {
           userName: values.username,
           password: values.password,
         })
-        .then(() => {
+        .then((data) => {
+
+          if (history.location.query && history.location.query.return) {
+            history.push(history.location.query.return);
+          }
           history.push('/');
         })
         .catch(() => {});

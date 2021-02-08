@@ -61,6 +61,14 @@ const AutoOrder: React.FC<Props> = props => {
     });
   }
   function postAutoOrder(postData: any) {
+    if (!postData.id) {
+      Object.assign(postData, {
+        oversoldRatio:  0.03,
+        overboughtRatio:  -0.034,
+        sellAmountRatio:  1.2,
+        buyAmountRatio:  1.2,
+      });
+    }
     trade.postAutoOrder(postData).then(data => {
       const newAutoOrderConfigList = [...autoOrderConfigList];
       const msg = postData.id ? '更新成功' : '提交成功';
@@ -75,7 +83,9 @@ const AutoOrder: React.FC<Props> = props => {
           };
         }
       } else {
-        newAutoOrderConfigList.push(data);
+        newAutoOrderConfigList.push({
+          ...data,
+        });
       }
       setAutoOrderConfigList(newAutoOrderConfigList);
       message.success(msg);
@@ -103,6 +113,26 @@ const AutoOrder: React.FC<Props> = props => {
       dataIndex: 'period',
     },
     {
+      title: 'oversoldRatio',
+      key: 'oversoldRatio',
+      dataIndex: 'oversoldRatio',
+    },
+    {
+      title: 'overboughtRatio',
+      key: 'overboughtRatio',
+      dataIndex: 'overboughtRatio',
+    },
+    {
+      title: 'sellAmountRatio',
+      key: 'sellAmountRatio',
+      dataIndex: 'sellAmountRatio',
+    },
+    {
+      title: 'buyAmountRatio',
+      key: 'buyAmountRatio',
+      dataIndex: 'buyAmountRatio',
+    },
+    {
       title: '操作',
       key: 'action',
       render: (text: string, record: any, index: number) => (
@@ -122,7 +152,9 @@ const AutoOrder: React.FC<Props> = props => {
               postAutoOrder({ ...values, id: record.id });
               return true;
             }}
-            initialValues={record}
+            initialValues={{
+              ...record
+            }}
           >
             <ProFormText width="s" name="symbol" label="symbol" />
             <ProFormDigit width="s" name="buy_usdt" label="buy_usdt" />
@@ -133,6 +165,10 @@ const AutoOrder: React.FC<Props> = props => {
               name="period"
               label="period"
             />
+            <ProFormText width="s" name="overboughtRatio" label="overboughtRatio" />
+            <ProFormText width="s" name="oversoldRatio" label="oversoldRatio" />
+            <ProFormText width="s" name="buyAmountRatio" label="buyAmountRatio" />
+            <ProFormText width="s" name="sellAmountRatio" label="sellAmountRatio" />
           </ModalForm>
           |
           <Button
