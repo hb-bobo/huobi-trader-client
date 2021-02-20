@@ -61,7 +61,7 @@ const index: React.FC<Props> = props => {
     return () => {
       socket.off('message', handleMessage);
     };
-  }, [actions]);
+  }, [actions.setSymbolInfo, state.symbolInfo]);
 
   function handleMessage(event: EventData<any>) {
     const data = event.data;
