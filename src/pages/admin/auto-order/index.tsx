@@ -63,10 +63,10 @@ const AutoOrder: React.FC<Props> = props => {
   function postAutoOrder(postData: any) {
     if (!postData.id) {
       Object.assign(postData, {
-        oversoldRatio:  0.03,
-        overboughtRatio:  -0.034,
-        sellAmountRatio:  1.2,
-        buyAmountRatio:  1.2,
+        oversoldRatio: 0.03,
+        overboughtRatio: -0.034,
+        sellAmountRatio: 1.6,
+        buyAmountRatio: 1.6,
       });
     }
     trade.postAutoOrder(postData).then(data => {
@@ -133,6 +133,16 @@ const AutoOrder: React.FC<Props> = props => {
       dataIndex: 'buyAmountRatio',
     },
     {
+      title: 'min',
+      key: 'min',
+      dataIndex: 'min',
+    },
+    {
+      title: 'max',
+      key: 'max',
+      dataIndex: 'max',
+    },
+    {
       title: '操作',
       key: 'action',
       render: (text: string, record: any, index: number) => (
@@ -153,7 +163,7 @@ const AutoOrder: React.FC<Props> = props => {
               return true;
             }}
             initialValues={{
-              ...record
+              ...record,
             }}
           >
             <ProFormText width="s" name="symbol" label="symbol" />
@@ -165,10 +175,24 @@ const AutoOrder: React.FC<Props> = props => {
               name="period"
               label="period"
             />
-            <ProFormText width="s" name="overboughtRatio" label="overboughtRatio" />
+            <ProFormText
+              width="s"
+              name="overboughtRatio"
+              label="overboughtRatio"
+            />
             <ProFormText width="s" name="oversoldRatio" label="oversoldRatio" />
-            <ProFormText width="s" name="buyAmountRatio" label="buyAmountRatio" />
-            <ProFormText width="s" name="sellAmountRatio" label="sellAmountRatio" />
+            <ProFormText
+              width="s"
+              name="buyAmountRatio"
+              label="buyAmountRatio"
+            />
+            <ProFormText
+              width="s"
+              name="sellAmountRatio"
+              label="sellAmountRatio"
+            />
+            <ProFormDigit width="s" name="max" label="max" />
+            <ProFormDigit width="s" name="min" label="min" />
           </ModalForm>
           |
           <Button
