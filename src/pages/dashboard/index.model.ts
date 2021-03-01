@@ -13,6 +13,9 @@ export interface State {
       tradeChartData: Record<string, any>[];
     };
   };
+  analysisMap: {
+    [symbol: string]: Record<string, any>[];
+  }
 }
 const initialState: State = {
   symbolInfo: {
@@ -23,6 +26,7 @@ const initialState: State = {
       tradeChartData: [],
     },
   },
+  analysisMap: {}
 };
 /**
  * actions 触发改变state
@@ -94,6 +98,44 @@ const effects = ({
       tradeChartData,
     });
   },
+  async getAnalysisData() {
+    const { data } = await chart.analyserResultQuery();
+    if (data) {
+      const newDataMap: any = {};
+      for (const symbol in data) {
+        if (Object.prototype.hasOwnProperty.call(data, symbol)) {
+          const list = data[symbol];
+          newDataMap[symbol] = [];
+          list.forEach((item: any) => {
+            const time = dayjs(item.time).format('YYYY-MM-DD H:mm:ss');
+            newDataMap[symbol].push({
+              type: 'close',
+              value: item.close,
+              time: time,
+            });
+            newDataMap[symbol].push({
+              type: 'MA60',
+              value: item.MA60,
+              time: time,
+            });
+            // newDataMap[symbol].push({
+            //   ...item,
+            //   time: time,
+            // });
+            newDataMap[symbol].push({
+              indexType: 'close/MA60',
+              indexValue: item['close/MA60'],
+              time: item.time,
+            });
+          })
+        }
+      }
+
+      actions.setState({
+        analysisMap: newDataMap,
+      });
+    }
+  }
 });
 export default function() {
   return useModel({
