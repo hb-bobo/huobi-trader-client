@@ -107,7 +107,7 @@ const effects = ({
           const list = data[symbol];
           newDataMap[symbol] = [];
           list.forEach((item: any) => {
-            const time = dayjs(item.time).format('YYYY-MM-DD H:mm:ss');
+            const time = item.time;
             newDataMap[symbol].push({
               type: 'close',
               value: item.close,
