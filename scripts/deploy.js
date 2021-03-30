@@ -16,7 +16,7 @@ ghpages.publish(
   {
     branch,
     dest: branchPath,
-    repo: repo,
+    repo: SSH_URL,
     message: commit,
     // silent: GH_TOKEN ? true : false,
     dotfiles: true,

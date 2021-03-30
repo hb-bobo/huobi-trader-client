@@ -187,14 +187,24 @@ const index: React.FC<Props> = props => {
               <h3>{symbol}</h3>
               <Row>
                 <Col span={12}>
-                  <h3>买盘挂单</h3>
+                  <h3>
+                    买盘挂单(
+                    {state.symbolInfo[symbol].depthBidsList &&
+                      state.symbolInfo[symbol].depthBidsList.length}
+                    )
+                  </h3>
                   <Handsontable
                     columns={columns}
                     data={state.symbolInfo[symbol].depthBidsList}
                   />
                 </Col>
                 <Col span={12}>
-                  <h3>卖盘挂单</h3>
+                  <h3>
+                    卖盘挂单(
+                    {state.symbolInfo[symbol].depthAsksList &&
+                      state.symbolInfo[symbol].depthAsksList.length}
+                    )
+                  </h3>
                   <Handsontable
                     columns={columns}
                     data={state.symbolInfo[symbol].depthAsksList}

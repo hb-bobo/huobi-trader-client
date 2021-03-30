@@ -1,17 +1,15 @@
-
-
 export let colorMap = {
-    'bids_max_1': '#006633',
-    'asks_max_1': '#990000',
-    'buy_1': '#03C087',
-    'sell_1': '#EF5555',
-    price: 'blue',
-    asks1_max_price: '#990000',
-    asks2_max_price: '#EF5555',
-    bids1_max_price: '#006633',
-    bids2_max_price: '#03C087',
+  bids_max_1: '#006633',
+  asks_max_1: '#990000',
+  buy_1: '#03C087',
+  sell_1: '#EF5555',
+  price: 'blue',
+  asks1_max_price: '#990000',
+  asks2_max_price: '#EF5555',
+  bids1_max_price: '#006633',
+  bids2_max_price: '#03C087',
 };
-export let tradeColor = [colorMap.buy_1, colorMap.sell_1];
+export let tradeColor = [colorMap.sell_1, colorMap.buy_1];
 
 // export const usdtFormatter = function formatter(val) {
 //     return `${(val / 10000)}万usdt (${parseInt(val / appConfig.prices.btc)}฿)`;
