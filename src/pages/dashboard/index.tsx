@@ -125,7 +125,7 @@ const index: React.FC<Props> = props => {
     { i: 'c', x: 4, y: 0, w: 1, h: 2 },
   ];
   const symbols = Object.keys(state.symbolInfo);
-  const analysisSymbols= Object.keys(state.analysisMap);
+  const analysisSymbols = Object.keys(state.analysisMap);
   return (
     <div className={classnames(prefixCls)}>
       <Form
@@ -158,6 +158,7 @@ const index: React.FC<Props> = props => {
               key={`${symbol}-trade`}
               data-grid={{ x: 0, y: index * 4, w: 6, h: 4 }}
             >
+              {symbol}
               <TradeBarChart
                 title={'买入卖出'}
                 xField={'time'}
@@ -170,6 +171,7 @@ const index: React.FC<Props> = props => {
               key={`${symbol}-depth`}
               data-grid={{ x: 0, y: index * 4 + 4, w: 6, h: 4 }}
             >
+              {symbol}
               <DepthChart
                 title={'深度记录'}
                 xField={'time'}
@@ -219,21 +221,21 @@ const index: React.FC<Props> = props => {
       </GridLayout>
 
       {analysisSymbols.map((symbol, index) => {
-          return (
-            <div key={symbol} >
-              <h3>{symbol}</h3>
-              <DualLine
-                title={'分析记录'}
-                xField={'time'}
-                yField={['value', 'indexValue']}
-                data={[
-                  state.analysisMap[symbol] || [],
-                  state.analysisMap[symbol] || [],
-                ]}
-              />
-            </div>
-          );
-        })}
+        return (
+          <div key={symbol}>
+            <h3>{symbol}</h3>
+            <DualLine
+              title={'分析记录'}
+              xField={'time'}
+              yField={['value', 'indexValue']}
+              data={[
+                state.analysisMap[symbol] || [],
+                state.analysisMap[symbol] || [],
+              ]}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 };
