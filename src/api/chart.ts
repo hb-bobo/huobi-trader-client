@@ -20,3 +20,10 @@ export function tradeQuery(query: {
     params: query,
   });
 }
+
+export function analyserResultQuery() {
+  return request({
+    url: '/statistics/analyser',
+    params: {},
+  });
+}

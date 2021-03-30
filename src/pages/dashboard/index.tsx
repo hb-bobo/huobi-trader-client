@@ -13,6 +13,7 @@ import model from './index.model';
 import { Handsontable } from '@/components/table';
 import './index.less';
 import DepthChart from './_components/chart/DepthChart';
+import DualLine from './_components/chart/DualLine';
 import { getInterval } from '@/utils/date';
 import { transDepthData, transTradeData } from './transfrom';
 
@@ -54,6 +55,7 @@ const index: React.FC<Props> = props => {
         socket.emit('sub', { symbol: symbol });
       });
     });
+    effects.getAnalysisData();
   }, []);
 
   useEffect(() => {
@@ -123,7 +125,7 @@ const index: React.FC<Props> = props => {
     { i: 'c', x: 4, y: 0, w: 1, h: 2 },
   ];
   const symbols = Object.keys(state.symbolInfo);
-
+  const analysisSymbols= Object.keys(state.analysisMap);
   return (
     <div className={classnames(prefixCls)}>
       <Form
@@ -215,6 +217,23 @@ const index: React.FC<Props> = props => {
           );
         })}
       </GridLayout>
+
+      {analysisSymbols.map((symbol, index) => {
+          return (
+            <div key={symbol} >
+              <h3>{symbol}</h3>
+              <DualLine
+                title={'分析记录'}
+                xField={'time'}
+                yField={['value', 'indexValue']}
+                data={[
+                  state.analysisMap[symbol] || [],
+                  state.analysisMap[symbol] || [],
+                ]}
+              />
+            </div>
+          );
+        })}
     </div>
   );
 };
