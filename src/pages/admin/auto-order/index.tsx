@@ -67,6 +67,7 @@ const AutoOrder: React.FC<Props> = props => {
         overboughtRatio: -0.034,
         sellAmountRatio: 1.6,
         buyAmountRatio: 1.6,
+        contract: false,
       });
     }
     trade.postAutoOrder(postData).then(data => {
@@ -143,6 +144,11 @@ const AutoOrder: React.FC<Props> = props => {
       dataIndex: 'max',
     },
     {
+      title: 'contract',
+      key: 'contract',
+      dataIndex: 'contract',
+    },
+    {
       title: '操作',
       key: 'action',
       render: (text: string, record: any, index: number) => (
@@ -193,6 +199,7 @@ const AutoOrder: React.FC<Props> = props => {
             />
             <ProFormDigit width="s" name="max" label="max" />
             <ProFormDigit width="s" name="min" label="min" />
+            <ProFormSwitch width="s" label="contract"></ProFormSwitch>
           </ModalForm>
           |
           <Button
@@ -236,7 +243,6 @@ const AutoOrder: React.FC<Props> = props => {
         <ProFormText width="s" name="symbol" label="symbol" />
         <ProFormDigit width="s" name="buy_usdt" label="buy_usdt" />
         <ProFormDigit width="s" name="sell_usdt" label="sell_usdt" />
-
         <ProFormSelect
           options={periodOptions}
           width="s"
