@@ -46,8 +46,13 @@ export default defineConfig({
             },
             {
               path: '/admin/auto-order',
-              name: '自动交易',
+              name: '自动交易(现货)',
               component: '@/pages/admin/auto-order/index',
+            },
+            {
+              path: '/admin/auto-order-contract',
+              name: '自动交易(合约)',
+              component: '@/pages/admin/auto-order-contract/index',
             },
             {
               path: '/admin/auto-order-history',

@@ -45,6 +45,21 @@ const periodOptions = [
     label: '1day',
   },
 ];
+const leverRateOptions = [
+  {
+    value: '5',
+    label: '5',
+  },
+  {
+    value: '10',
+    label: '10',
+  },
+  ,
+  {
+    value: '20',
+    label: '20',
+  },
+];
 const AutoOrder: React.FC<Props> = props => {
   const {} = props;
   const [autoOrderConfigList, setAutoOrderConfigList] = React.useState<any[]>(
@@ -56,7 +71,7 @@ const AutoOrder: React.FC<Props> = props => {
   }, []);
 
   function getWatchSymbol() {
-    trade.queryAutoOrder().then(data => {
+    trade.queryAutoContractOrder().then(data => {
       setAutoOrderConfigList(data);
     });
   }
@@ -70,7 +85,7 @@ const AutoOrder: React.FC<Props> = props => {
         contract: false,
       });
     }
-    trade.postAutoOrder(postData).then(data => {
+    trade.postAutoContractOrder(postData).then(data => {
       const newAutoOrderConfigList = [...autoOrderConfigList];
       const msg = postData.id ? '更新成功' : '提交成功';
       if (postData.id) {
@@ -99,19 +114,34 @@ const AutoOrder: React.FC<Props> = props => {
       dataIndex: 'symbol',
     },
     {
-      title: 'buy_usdt',
-      key: 'buy_usdt',
-      dataIndex: 'buy_usdt',
+      title: '买入开多',
+      key: 'buy_open',
+      dataIndex: 'buy_open',
     },
     {
-      title: 'sell_usdt',
-      key: 'sell_usdt',
-      dataIndex: 'sell_usdt',
+      title: '卖出平多',
+      key: 'sell_close',
+      dataIndex: 'sell_close',
+    },
+    {
+      title: '卖出开空',
+      key: 'sell_open',
+      dataIndex: 'sell_open',
+    },
+    {
+      title: '买入平空',
+      key: 'buy_close',
+      dataIndex: 'buy_close',
     },
     {
       title: 'period',
       key: 'period',
       dataIndex: 'period',
+    },
+    {
+      title: '倍数',
+      key: 'lever_rate',
+      dataIndex: 'lever_rate',
     },
     {
       title: 'oversoldRatio',
@@ -132,16 +162,6 @@ const AutoOrder: React.FC<Props> = props => {
       title: 'buyAmountRatio',
       key: 'buyAmountRatio',
       dataIndex: 'buyAmountRatio',
-    },
-    {
-      title: 'min',
-      key: 'min',
-      dataIndex: 'min',
-    },
-    {
-      title: 'max',
-      key: 'max',
-      dataIndex: 'max',
     },
     {
       title: 'contract',
@@ -176,8 +196,16 @@ const AutoOrder: React.FC<Props> = props => {
             }}
           >
             <ProFormText width="s" name="symbol" label="symbol" />
-            <ProFormDigit width="s" name="buy_usdt" label="buy_usdt" />
-            <ProFormDigit width="s" name="sell_usdt" label="sell_usdt" />
+            <ProFormDigit width="s" name="buy_open" label="买入开多" />
+            <ProFormDigit width="s" name="sell_close" label="卖出平多" />
+            <ProFormDigit width="s" name="sell_open" label="卖出开空" />
+            <ProFormDigit width="s" name="buy_close" label="买入平空" />
+            <ProFormSelect
+              options={leverRateOptions}
+              width="s"
+              name="lever_rate"
+              label="lever_rate"
+            />
             <ProFormSelect
               options={periodOptions}
               width="s"
@@ -200,8 +228,7 @@ const AutoOrder: React.FC<Props> = props => {
               name="sellAmountRatio"
               label="sellAmountRatio"
             />
-            <ProFormDigit width="s" name="max" label="max" />
-            <ProFormDigit width="s" name="min" label="min" />
+
             <ProFormSwitch name="contract" label="contract"></ProFormSwitch>
           </ModalForm>
           |
@@ -244,14 +271,26 @@ const AutoOrder: React.FC<Props> = props => {
         }}
       >
         <ProFormText width="s" name="symbol" label="symbol" />
-        <ProFormDigit width="s" name="buy_usdt" label="buy_usdt" />
-        <ProFormDigit width="s" name="sell_usdt" label="sell_usdt" />
+        <ProFormDigit width="s" name="buy_open" label="买入开多" />
+        <ProFormDigit width="s" name="sell_close" label="卖出平多" />
+        <ProFormDigit width="s" name="sell_open" label="卖出开空" />
+        <ProFormDigit width="s" name="buy_close" label="买入平空" />
+        <ProFormSelect
+          options={leverRateOptions}
+          width="s"
+          name="lever_rate"
+          label="lever_rate"
+        />
         <ProFormSelect
           options={periodOptions}
           width="s"
           name="period"
           label="period"
         />
+        <ProFormText width="s" name="overboughtRatio" label="overboughtRatio" />
+        <ProFormText width="s" name="oversoldRatio" label="oversoldRatio" />
+        <ProFormText width="s" name="buyAmountRatio" label="buyAmountRatio" />
+        <ProFormText width="s" name="sellAmountRatio" label="sellAmountRatio" />
       </ModalForm>
       <Table columns={columns} dataSource={autoOrderConfigList} />
     </div>

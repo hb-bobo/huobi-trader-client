@@ -73,3 +73,30 @@ export function queryAutoOrderHistory({ current, pageSize }: Pagination) {
     return { list: [], pagination: undefined };
   });
 }
+
+export function queryAutoContractOrder() {
+  return checkResult(
+    request({
+      url: '/auto-order-contract-config',
+    }),
+  );
+}
+
+export function postAutoContractOrder(data: Record<string, any>) {
+  return checkResult(
+    request({
+      url: '/auto-order-contract-config',
+      method: 'POST',
+      data: data,
+    }),
+  );
+}
+export function removeAutoContractOrder(id: string) {
+  return checkResult(
+    request({
+      url: '/auto-order-contract-config',
+      method: 'delete',
+      data: { id },
+    }),
+  );
+}
