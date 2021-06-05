@@ -81,7 +81,7 @@ const AutoOrder: React.FC<Props> = props => {
         overboughtRatio: -0.034,
         sellAmountRatio: 1.6,
         buyAmountRatio: 1.6,
-        contract: false,
+        contract: true,
       });
     }
     trade.postAutoContractOrder(postData).then(data => {
@@ -235,7 +235,7 @@ const AutoOrder: React.FC<Props> = props => {
             danger
             type="text"
             onClick={() => {
-              trade.removeAutoOrder(record.id).then(data => {
+              trade.removeAutoContractOrder(record.id).then(data => {
                 message.success('删除成功');
                 getWatchSymbol();
               });
