@@ -14,6 +14,11 @@ export default defineConfig({
       name: 'home',
       routes: [
         {
+          path: '/home',
+          name: 'home',
+          component: '@/pages/home/index',
+        },
+        {
           path: '/dashboard',
           name: 'dashboard',
           component: '@/pages/dashboard/index',

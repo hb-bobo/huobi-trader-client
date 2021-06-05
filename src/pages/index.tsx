@@ -8,8 +8,7 @@ import ProLayout, {
 import { Link } from 'umi';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import Home from './home';
-import Admin from './admin';
-import { UserContextProvider } from '@/context/UserContext';
+// import Admin from './admin';
 
 import './index.less';
 import '../ws';
@@ -33,7 +32,7 @@ const settings: Settings = {
   menu: {
     locale: true,
   },
-  title: 'huobi',
+  title: 'Trader',
   iconfontUrl: 'https://huobiapi.github.io/docs/spot/v1/cn/images/logo.svg',
 };
 const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
@@ -46,26 +45,24 @@ const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
   });
 export default (props: BasicLayoutProps) => {
   return (
-    <UserContextProvider>
-      <ProLayout
-        menuDataRender={menuDataRender}
-        menuItemRender={(menuItemProps, defaultDom) => {
-          if (
-            menuItemProps.isUrl ||
-            menuItemProps.children ||
-            !menuItemProps.path
-          ) {
-            return defaultDom;
-          }
+    <ProLayout
+      menuDataRender={menuDataRender}
+      menuItemRender={(menuItemProps, defaultDom) => {
+        if (
+          menuItemProps.isUrl ||
+          menuItemProps.children ||
+          !menuItemProps.path
+        ) {
+          return defaultDom;
+        }
 
-          return <Link to={menuItemProps.path}>{defaultDom}</Link>;
-        }}
-        rightContentRender={() => <RightContent />}
-        {...settings}
-        {...props}
-      >
-        {/* <Home /> */}
-      </ProLayout>
-    </UserContextProvider>
+        return <Link to={menuItemProps.path}>{defaultDom}</Link>;
+      }}
+      rightContentRender={() => <RightContent />}
+      {...settings}
+      {...props}
+    >
+      {/* <Home /> */}
+    </ProLayout>
   );
 };

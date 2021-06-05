@@ -4,6 +4,7 @@ import { DownOutlined } from '@ant-design/icons';
 import QueueAnim from 'rc-queue-anim';
 import TweenOne, { TweenOneGroup } from 'rc-tween-one';
 import BannerAnim, { Element } from 'rc-banner-anim';
+
 import { isImg } from './utils';
 import 'rc-banner-anim/assets/index.css';
 
@@ -11,6 +12,7 @@ const BgElement = Element.BgElement;
 class Banner extends React.PureComponent {
   render() {
     const { ...props } = this.props;
+    console.log(props);
     const { dataSource, isMobile } = props;
     delete props.dataSource;
     delete props.isMobile;

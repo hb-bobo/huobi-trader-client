@@ -1,4 +1,5 @@
 import React from 'react';
+import { history } from 'umi';
 export const Banner20DataSource = {
   wrapper: { className: 'banner2' },
   BannerAnim: {
@@ -14,7 +15,13 @@ export const Banner20DataSource = {
           className: 'banner2-content',
           children: '',
         },
-        button: { className: 'banner2-button', children: 'Dashboard' },
+        button: {
+          className: 'banner2-button',
+          children: 'Dashboard',
+          onClick: () => {
+            history.push('/dashboard');
+          },
+        },
       },
     ],
   },
@@ -24,11 +31,6 @@ export const Footer00DataSource = {
   OverPack: { className: 'home-page footer0', playScale: 0.05 },
   copyright: {
     className: 'copyright',
-    children: (
-      <span>
-        ©2018 <a href="https://motion.ant.design">Ant Motion</a> All Rights
-        Reserved
-      </span>
-    ),
+    children: <span>©2018 Ant Motion All Rights Reserved</span>,
   },
 };

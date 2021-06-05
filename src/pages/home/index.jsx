@@ -10,7 +10,7 @@ import { Banner20DataSource, Footer00DataSource } from './data.source';
 import './less/antMotionStyle.less';
 
 let isMobile;
-enquireScreen((b) => {
+enquireScreen(b => {
   isMobile = b;
 });
 
@@ -21,29 +21,30 @@ export default class Home extends React.Component {
     super(props);
     this.state = {
       isMobile,
-      show: !location.port, // 如果不是 dva 2.0 请删除
+      // show: !location.port, // 如果不是 dva 2.0 请删除
     };
   }
 
   componentDidMount() {
     // 适配手机屏幕;
-    enquireScreen((b) => {
+    enquireScreen(b => {
       this.setState({ isMobile: !!b });
     });
     // dva 2.0 样式在组件渲染之后动态加载，导致滚动组件不生效；线上不影响；
     /* 如果不是 dva 2.0 请删除 start */
-    if (location.port) {
-      // 样式 build 时间在 200-300ms 之间;
-      setTimeout(() => {
-        this.setState({
-          show: true,
-        });
-      }, 500);
-    }
+    // if (location.port) {
+    //   // 样式 build 时间在 200-300ms 之间;
+    //   setTimeout(() => {
+    //     this.setState({
+    //       show: true,
+    //     });
+    //   }, 500);
+    // }
     /* 如果不是 dva 2.0 请删除 end */
   }
 
   render() {
+    console.log(this.props);
     const children = [
       <Banner2
         id="Banner2_0"
@@ -61,12 +62,13 @@ export default class Home extends React.Component {
     return (
       <div
         className="templates-wrapper"
-        ref={(d) => {
+        ref={d => {
           this.dom = d;
         }}
       >
+        {children}
         {/* 如果不是 dva 2.0 替换成 {children} start */}
-        {this.state.show && children}
+        {/* {this.state.show && children} */}
         {/* 如果不是 dva 2.0 替换成 {children} end */}
       </div>
     );
